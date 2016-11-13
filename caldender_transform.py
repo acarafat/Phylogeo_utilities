@@ -1,4 +1,5 @@
-# BEAST Utilis
+# Calender transform
+
 
 from calendar import monthrange
 from math import ceil
@@ -25,6 +26,11 @@ def transformDate(decimal, year):
         
 
 def toYearFraction(date):
+    '''
+    Example:
+    >>> toYearFraction(dt(2016, 11, 13))
+    2016.8661202185792
+    '''
     def sinceEpoch(date): # returns seconds since epoch
         return time.mktime(date.timetuple())
     s = sinceEpoch
