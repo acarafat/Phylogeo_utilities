@@ -22,7 +22,7 @@ def extract_info(fileName):
     '''Input:
             - fileName: name of csv file
         Output:
-            - A dictionary of tuples {genbankID: (isolation_date, isolation_place, lattitude, longitude)}        
+            - A dictionary of tuples {acc_no: (isolate_id, isolation_date, isolation_place, lattitude, longitude)}        
     '''
     fileIn = open(fileName)
     raw = fileIn.read().split('\n')
@@ -43,7 +43,8 @@ def write_fasta_description(fileName, coords):
         signal = 0
         for acc in coords.keys():
             if acc in record.description:
-                record.description += '~'+coords[acc][0]+'~' + coords[acc][1] + ',' + coords[acc][2] + '_' + coords[acc][3] + '_' + coords[acc][4]
+                record.description = coords[acc][0]+'|' + coords[acc][1] + '_' + coords[acc][2] + '_' + coords[acc][3] + '_' + coords[acc][4]
+                #record.description = coords[acc][0]
                 record.id = ''
                 
                 signal = 1
@@ -59,8 +60,8 @@ def write_fasta_description(fileName, coords):
 
 
 if __name__ == '__main__':
-    coords = extract_info('seq_description.csv')
-    fileName = 'Indian_subcontinent_truncated.fas'
+    coords = extract_info('../Data/Metadata/FMDV_typeO_metadata_calyr_loc_edited.csv')
+    fileName = '../Data/Seqs/FMDV-O_MASTER_Aligned-Codon.fas'
     write_fasta_description(fileName, coords)
     
     

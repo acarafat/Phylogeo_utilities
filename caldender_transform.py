@@ -6,11 +6,32 @@ from math import ceil
 from datetime import datetime as dt
 import time
 
+def staging_fraction(decimal):
+    '''
+    1. Break decimal-date in usable format for transformDate
+    2. Run transformDate
+    3. Return date in yyyy-MM-dd format
+    '''
+    dec = str(decimal)
+    if '.' in dec:
+        y, d = dec.split('.')
+        if d == '0':
+            return str(int(decimal))+'-'+'01'+'-'+'01'
+        d = float('.'+d)
+        ny = int(y)
+        output = transformDate(d, ny)
+        return str(ny)+'-'+str(output[0])+'-'+str(int(output[1]))
+    else:
+        return str(decimal)+'-'+'01'+'-'+'01'
+    
 
 def transformDate(decimal, year):
     '''Transforming BEAST date output
-    from point decimals to calender dates'''
-    
+    from point decimals to calender dates
+    Example:
+    >>> transformDate( .61748634, 2016)
+    (8, 14.0)
+    '''
     if monthrange(year, 2) == 28:
         days = 365*decimal
     else:
